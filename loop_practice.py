@@ -6,3 +6,15 @@ for num in numbers.copy():
         numbers.remove(num)
 
 print(numbers)
+
+# Дан список строк - удали все строки короче 3 символов.
+
+words = ["a", "hi", "python", "development", "go", "elephant", "7", "ok", "programming", "up", "computer"]
+
+long_words = []
+
+for word in words:
+    if len(word) >= 3:
+        long_words.append(word)
+
+print(long_words)
