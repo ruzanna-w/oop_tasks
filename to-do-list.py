@@ -68,6 +68,18 @@ class TaskManager:
         if task in self._task_list.copy():
             self._task_list.remove(task)
 
+    def complete_task(self, task):
+        try:
+            task.done = True
+        except ValueError:
+            print("Task has already completed")
+
+    def reopen_task(self, task):
+        try:
+            task.done = False
+        except ValueError:
+            print("Task has already opened")
+
 class RecurringTask(Task):
     def __init__(self, title, deadline, description, repeat_interval, priority=Priority.Unspecified, done=False):
         super().__init__(title, deadline, description, priority, done)
