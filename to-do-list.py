@@ -89,18 +89,21 @@ class RecurringTask(Task):
     def done(self, value):
         Task.done.fset(self, value)
 
-        if self.repeat_interval == RepeatInterval.WEEKLY:
-            self.deadline += timedelta(weeks=1)
+        # при переоткрытии задачи оставляю новый дедлайн, 
+        # потому что может быть создана задача в прошлом, что рушит логику 
+        if value:
+            if self.repeat_interval == RepeatInterval.WEEKLY:
+                self.deadline += timedelta(weeks=1)
         
 
-task1 = Task("Купить продукты", date(2026, 7, 27), "Купить молоко, хлеб и овощи", Priority.High, False)
-task2 = Task("Выучить Python", date(2026, 7, 29), "Повторить Enum, циклы и функции", Priority.High, False)
-task3 = Task("Убраться дома", date(2026, 7, 25), "Пропылесосить и помыть пол", Priority.Medium, False)
-task4 = Task("Позвонить другу", date(2026, 7, 20), "Обсудить встречу на выходных", Priority.Low, False)
+task1 = Task("Купить продукты", date(2026, 8, 27), "Купить молоко, хлеб и овощи", Priority.High, False)
+task2 = Task("Выучить Python", date(2026, 8, 29), "Повторить Enum, циклы и функции", Priority.High, False)
+task3 = Task("Убраться дома", date(2026, 8, 25), "Пропылесосить и помыть пол", Priority.Medium, False)
+task4 = Task("Позвонить другу", date(2026, 8, 20), "Обсудить встречу на выходных", Priority.Low, False)
 task5 = Task("Сделать проект Todo List", date(2026, 8, 1), "Добавить классы Task и список задач", Priority.High, False)
 task6 = Task("Прочитать книгу", date(2026, 8, 5), "Прочитать 50 страниц", Priority.Medium, False)
-task7 = Task("Спорт", date(2026, 7, 31), "Сделать тренировку 30 минут", Priority.Low, False)
-task8 = RecurringTask("Выучить Python Recurring", date(2026, 7, 29), "Повторить Enum, циклы и функции", RepeatInterval.WEEKLY, Priority.High, False)
+task7 = Task("Спорт", date(2026, 8, 31), "Сделать тренировку 30 минут", Priority.Low, False)
+task8 = RecurringTask("Выучить Python Recurring", date(2026, 8, 29), "Повторить Enum, циклы и функции", RepeatInterval.WEEKLY, Priority.High, False)
 
 task_manager = TaskManager()
 
@@ -123,4 +126,7 @@ for task in task_manager.get_all_tasks():
 print(f'У {task8.title} done = {task8.done}, deadline = {task8.deadline}')
 
 task8.done = True
+print(f'У {task8.title} done = {task8.done}, deadline = {task8.deadline}')
+
+task8.done = False
 print(f'У {task8.title} done = {task8.done}, deadline = {task8.deadline}')
