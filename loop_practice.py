@@ -19,3 +19,19 @@ for word in words:
 
 print(long_words)
 
+# Task 4
+contacts = [
+    {"name": "Алексей", "phone": "+79990001122", "archived": False},
+    {"name": "Мария", "phone": "+79990002233", "archived": True},
+    {"name": "Иван", "phone": "+79990003344", "archived": False},
+    {"name": "Ольга", "phone": "+79990004455", "archived": True},
+    {"name": "Сергей", "phone": "+79990005566", "archived": False},
+    {"name": "Анна", "phone": "+79990006677", "archived": True},
+]
+
+for contact in contacts.copy():
+    if contact['archived'] == True:
+        contacts.remove(contact)
+
+print(contacts)
+
