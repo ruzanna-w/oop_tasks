@@ -87,13 +87,17 @@ class RecurringTask(Task):
     
     @Task.done.setter
     def done(self, value):
-        Task.done.fset(self, value)
-
         # при переоткрытии задачи оставляю новый дедлайн, 
         # потому что может быть создана задача в прошлом, что рушит логику 
+        overdue = self.is_overdue() 
+        Task.done.fset(self, value)
+
         if value:
             if self.repeat_interval == RepeatInterval.WEEKLY:
-                self.deadline += timedelta(weeks=1)
+                if overdue:
+                    self.deadline = date.today() + timedelta(weeks=1)
+                else:
+                    self.deadline += timedelta(weeks=1)
         
 
 task1 = Task("Купить продукты", date(2026, 8, 27), "Купить молоко, хлеб и овощи", Priority.High, False)
@@ -104,10 +108,11 @@ task5 = Task("Сделать проект Todo List", date(2026, 8, 1), "Доб�
 task6 = Task("Прочитать книгу", date(2026, 8, 5), "Прочитать 50 страниц", Priority.Medium, False)
 task7 = Task("Спорт", date(2026, 8, 31), "Сделать тренировку 30 минут", Priority.Low, False)
 task8 = RecurringTask("Выучить Python Recurring", date(2026, 8, 29), "Повторить Enum, циклы и функции", RepeatInterval.WEEKLY, Priority.High, False)
+task9 = RecurringTask("Сделать проект Todo List", date(2026, 7, 29), "Добавить классы Task и список задач", RepeatInterval.WEEKLY, Priority.High, False)
 
 task_manager = TaskManager()
 
-tasks = [task1, task2, task3, task4, task5, task6, task7, task8] 
+tasks = [task1, task2, task3, task4, task5, task6, task7, task8, task9] 
 
 for task in tasks:
     task_manager.add_task(task)
@@ -130,3 +135,6 @@ print(f'У {task8.title} done = {task8.done}, deadline = {task8.deadline}')
 
 task8.done = False
 print(f'У {task8.title} done = {task8.done}, deadline = {task8.deadline}')
+
+task9.done = True
+print(f'У {task9.title} done = {task9.done}, deadline = {task9.deadline}')
