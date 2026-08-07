@@ -109,10 +109,14 @@ task6 = Task("Прочитать книгу", date(2026, 8, 5), "Прочита�
 task7 = Task("Спорт", date(2026, 8, 31), "Сделать тренировку 30 минут", Priority.Low, False)
 task8 = RecurringTask("Выучить Python Recurring", date(2026, 8, 29), "Повторить Enum, циклы и функции", RepeatInterval.WEEKLY, Priority.High, False)
 task9 = RecurringTask("Сделать проект Todo List", date(2026, 7, 29), "Добавить классы Task и список задач", RepeatInterval.WEEKLY, Priority.High, False)
+task10 = RecurringTask("Прочитать книгу", date(2026, 8, 5), "Прочитать 50 страниц", RepeatInterval.WEEKLY, Priority.Medium, False)
+task11 = RecurringTask("Спорт", date(2026, 8, 31), "Сделать тренировку 30 минут", RepeatInterval.WEEKLY, Priority.Low, False)
+
 
 task_manager = TaskManager()
 
 tasks = [task1, task2, task3, task4, task5, task6, task7, task8, task9] 
+recurring_tasks = [task8, task9, task10, task11]
 
 for task in tasks:
     task_manager.add_task(task)
@@ -138,3 +142,26 @@ print(f'У {task8.title} done = {task8.done}, deadline = {task8.deadline}')
 
 task9.done = True
 print(f'У {task9.title} done = {task9.done}, deadline = {task9.deadline}')
+
+task10.done = True
+print(f'У {task10.title} done = {task10.done}, deadline = {task10.deadline}')
+
+task11.done = True
+print(f'У {task11.title} done = {task11.done}, deadline = {task11.deadline}')
+
+new_recurring_tasks = []
+
+for task in recurring_tasks.copy():
+    if task.done:
+        new_rec_tasks = RecurringTask(
+            task.title,
+            task.deadline,
+            task.description,
+            task.repeat_interval,
+            task.priority,
+            False
+        )
+        new_recurring_tasks.append(new_rec_tasks)
+    else:
+        new_recurring_tasks.append(task)
+
